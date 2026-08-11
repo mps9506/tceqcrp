@@ -6,6 +6,8 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/mps9506/tceqcrp/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mps9506/tceqcrp/actions/workflows/R-CMD-check.yaml)
+[![R-universe
+version](https://mps9506.r-universe.dev/tceqcrp/badges/version)](https://mps9506.r-universe.dev/tceqcrp)
 <!-- badges: end -->
 
 Scripted downloads from the TCEQ Clean Rivers Program (CRP) water
@@ -94,7 +96,7 @@ brazos <- crp_query(
 #> POST returned status: 302
 #> Location header: https://www80.tceq.texas.gov/SwqmisWeb/StreamServlet
 #> StreamServlet status: 200
-#> Downloaded 23782 bytes to C:\Users\MICHAE~1.SCH\AppData\Local\Temp\Rtmp6Z3je4\file5b28627e2777.txt
+#> Downloaded 23782 bytes to C:\Users\MICHAE~1.SCH\AppData\Local\Temp\RtmponoePx\file163c6bc21c7f.txt
 brazos
 #> # A tibble: 180 × 20
 #>    rfa_sample_set_id_tag…¹ segment station_id station_description parameter_code

@@ -10,6 +10,7 @@ Description: Programmatic access to the Texas Commission on Environmental
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
+Depends: R (>= 4.1.0)
 Imports:
     httr2,
     rvest,
