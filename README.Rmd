@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 # tceqcrp
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/mps9506/tceqcrp/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mps9506/tceqcrp/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 
