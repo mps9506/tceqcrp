@@ -24,38 +24,41 @@
 #'              data_type = 1, basin = 12, station_rows = rows,
 #'              path = "brazos.txt")
 #' }
-crp_download <- function(form,
-                         startdate,
-                         enddate,
-                         data_type,
-                         basin,
-                         format       = "14",
-                         segment_rows,          # <- renamed
-                         param_code   = "",
-                         path         = tempfile(fileext = ".txt"),
-                         quiet        = FALSE) {
-
+crp_download <- function(
+  form,
+  startdate,
+  enddate,
+  data_type,
+  basin,
+  format = "14",
+  segment_rows, # <- renamed
+  param_code = "",
+  path = tempfile(fileext = ".txt"),
+  quiet = FALSE
+) {
   if (!inherits(form, "crp_form")) {
     stop("`form` must be a crp_form object from crp_select_basin().")
   }
-  if (length(segment_rows) == 0) {                        # <- renamed
+  if (length(segment_rows) == 0) {
+    # <- renamed
     stop("No segment_rows supplied - nothing to download.")
   }
 
   msg <- function(...) if (!quiet) message(...)
 
   body <- list(
-    "form1"                 = "form1",
-    "startdate"             = startdate,
-    "enddate"               = enddate,
-    "form1:param_code"      = param_code,
-    "form1:menu2"           = as.character(data_type),
-    "form1:menu23"          = as.character(basin),
-    "form1:menu1"           = as.character(format),
-    "form1:button2"         = "Generate",
+    "form1" = "form1",
+    "startdate" = startdate,
+    "enddate" = enddate,
+    "form1:param_code" = param_code,
+    "form1:menu2" = as.character(data_type),
+    "form1:menu23" = as.character(basin),
+    "form1:menu1" = as.character(format),
+    "form1:button2" = "Generate",
     "javax.faces.ViewState" = form$view_state
   )
-  for (r in segment_rows) {                                # <- renamed
+  for (r in segment_rows) {
+    # <- renamed
     body[[sprintf("form1:table3:%d:checkbox1a", r)]] <- "on"
   }
   # Step A: POST the query. Do NOT follow the redirect automatically -
@@ -64,7 +67,7 @@ crp_download <- function(form,
   post_resp <- crp_request() |>
     httr2::req_headers(
       Referer = crp_base_url(),
-      Origin  = "https://www80.tceq.texas.gov"
+      Origin = "https://www80.tceq.texas.gov"
     ) |>
     httr2::req_body_form(!!!body) |>
     httr2::req_options(followlocation = FALSE) |>
@@ -83,8 +86,11 @@ crp_download <- function(form,
         stop("Session expired. Re-run crp_get_form() and crp_select_basin().")
       }
     }
-    stop("Expected a 302 redirect but got status ", status,
-         ". The query may have returned no data.")
+    stop(
+      "Expected a 302 redirect but got status ",
+      status,
+      ". The query may have returned no data."
+    )
   }
 
   loc <- httr2::resp_header(post_resp, "location")
@@ -109,15 +115,17 @@ crp_download <- function(form,
 
   size <- file.info(path)$size
   if (is.na(size) || size == 0) {
-    warning("Downloaded file is empty - check your query parameters ",
-            "(date range, data type, stations).")
+    warning(
+      "Downloaded file is empty - check your query parameters ",
+      "(date range, data type, stations)."
+    )
   } else {
     msg("Downloaded ", size, " bytes to ", path)
   }
 
   invisible(list(
-    path        = path,
-    post_resp   = post_resp,
+    path = path,
+    post_resp = post_resp,
     stream_resp = stream_resp
   ))
 }
@@ -131,26 +139,24 @@ crp_download <- function(form,
 #' @return A tibble.
 #' @export
 crp_read <- function(path, clean_names = FALSE, ...) {
-
   col_types <- readr::cols(
-    .default                   = readr::col_character(),
-    `Value`                    = readr::col_double(),
-    `End Date`                 = readr::col_date(format = "%m/%d/%Y"),
-    `Start Date`               = readr::col_date(format = "%m/%d/%Y"),
-    `End Depth`                = readr::col_double(),
-    `Start Depth`              = readr::col_double(),
-    `End Time`                 = readr::col_time(),
-    `Start Time`               = readr::col_time(),
-    `Start Depth`              = readr::col_double(),
-    `Composite Category`       = readr::col_character(),
-    `Composite Type`           = readr::col_character()
-
+    .default = readr::col_character(),
+    `Value` = readr::col_double(),
+    `End Date` = readr::col_date(format = "%m/%d/%Y"),
+    `Start Date` = readr::col_date(format = "%m/%d/%Y"),
+    `End Depth` = readr::col_double(),
+    `Start Depth` = readr::col_double(),
+    `End Time` = readr::col_time(),
+    `Start Time` = readr::col_time(),
+    `Start Depth` = readr::col_double(),
+    `Composite Category` = readr::col_character(),
+    `Composite Type` = readr::col_character()
   )
 
   df <- readr::read_delim(
     path,
-    delim          = "|",
-    col_types      = col_types,
+    delim = "|",
+    col_types = col_types,
     show_col_types = FALSE,
     ...
   )

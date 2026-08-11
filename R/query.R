@@ -25,43 +25,46 @@
 #'   clean_names = TRUE
 #' )
 #' }
-crp_query <- function(basin,
-                      startdate,
-                      enddate,
-                      data_type,
-                      segment_ids,
-                      format      = "14",
-                      param_code  = "",
-                      path        = tempfile(fileext = ".txt"),
-                      read        = TRUE,
-                      clean_names = FALSE,
-                      quiet       = FALSE) {
-
+crp_query <- function(
+  basin,
+  startdate,
+  enddate,
+  data_type,
+  segment_ids,
+  format = "14",
+  param_code = "",
+  path = tempfile(fileext = ".txt"),
+  read = TRUE,
+  clean_names = FALSE,
+  quiet = FALSE
+) {
   if (missing(segment_ids) || length(segment_ids) == 0) {
-    stop("Please supply `segment_ids`. Use crp_list_segments(basin) to ",
-         "see available segments.")
+    stop(
+      "Please supply `segment_ids`. Use crp_list_segments(basin) to ",
+      "see available segments."
+    )
   }
 
-  form  <- crp_get_form()
+  form <- crp_get_form()
   form2 <- crp_select_basin(form, basin)
-  seg   <- crp_segments(form2)
-  rows  <- crp_rows_for_segments(seg, segment_ids)
+  seg <- crp_segments(form2)
+  rows <- crp_rows_for_segments(seg, segment_ids)
 
   if (length(rows) == 0) {
     stop("None of the requested segment IDs were found in basin ", basin, ".")
   }
 
   res <- crp_download(
-    form         = form2,
-    startdate    = startdate,
-    enddate      = enddate,
-    data_type    = data_type,
-    basin        = basin,
-    format       = format,
+    form = form2,
+    startdate = startdate,
+    enddate = enddate,
+    data_type = data_type,
+    basin = basin,
+    format = format,
     segment_rows = rows,
-    param_code   = param_code,
-    path         = path,
-    quiet        = quiet
+    param_code = param_code,
+    path = path,
+    quiet = quiet
   )
 
   if (read) {
@@ -76,7 +79,7 @@ crp_query <- function(basin,
 #' @return A tibble with `row`, `segment_id`, `segment_desc`.
 #' @export
 crp_list_segments <- function(basin) {
-  form  <- crp_get_form()
+  form <- crp_get_form()
   form2 <- crp_select_basin(form, basin)
   crp_segments(form2)
 }

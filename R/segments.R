@@ -9,11 +9,11 @@ crp_select_basin <- function(form, basin) {
   resp <- crp_request() |>
     httr2::req_headers(
       Referer = crp_base_url(),
-      Origin  = "https://www80.tceq.texas.gov"
+      Origin = "https://www80.tceq.texas.gov"
     ) |>
     httr2::req_body_form(
-      "form1"                 = "form1",
-      "form1:menu23"          = as.character(basin),
+      "form1" = "form1",
+      "form1:menu23" = as.character(basin),
       "javax.faces.ViewState" = form$view_state
     ) |>
     httr2::req_perform()
@@ -54,8 +54,8 @@ crp_segments <- function(form) {
   )
 
   tibble::tibble(
-    row          = rows,
-    segment_id   = segment_id,
+    row = rows,
+    segment_id = segment_id,
     segment_desc = segment_desc
   )
 }
@@ -70,8 +70,10 @@ crp_rows_for_segments <- function(segments, ids) {
   matched <- segments$row[segments$segment_id %in% as.character(ids)]
   missing <- setdiff(as.character(ids), segments$segment_id)
   if (length(missing) > 0) {
-    warning("Segment IDs not found in this basin: ",
-            paste(missing, collapse = ", "))
+    warning(
+      "Segment IDs not found in this basin: ",
+      paste(missing, collapse = ", ")
+    )
   }
   matched
 }
