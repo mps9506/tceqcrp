@@ -1,0 +1,25 @@
+Package: tceqcrp
+Title: Scripted Downloads from the TCEQ CRP Water Quality Portal
+Version: 0.1.0
+Authors@R:
+    person("Michael", "Schramm", email = "mps9506@gmail.com", role = c("aut", "cre"))
+Description: Programmatic access to the Texas Commission on Environmental
+    Quality (TCEQ) Clean Rivers Program (CRP) public data portal. Handles
+    JSF session state, basin/station selection, and download of
+    tab-delimited water quality data files.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+Imports:
+    httr2,
+    rvest,
+    xml2,
+    stringr,
+    tibble,
+    readr
+Suggests:
+    curl,
+    janitor,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Config/roxygen2/version: 8.1.0

@@ -1,0 +1,84 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# tceqcrp
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+
+Scripted downloads from the TCEQ Clean Rivers Program (CRP) water
+quality data portal.
+
+## Installation
+
+```r
+# install.packages("remotes")
+remotes::install_github("mps9506/tceqcrp")
+```
+
+
+## Quick Start
+
+### Concepts
+
+- **Basin**: a major river basin (1-25), e.g. Brazos River.
+- **Segment**: a subdivision within a basin (e.g. `1202`, "Brazos River
+  Below Navasota River"). You select which segments to download.
+- **Station**: an individual monitoring site (e.g. `11846`). Stations
+  appear in the `Station ID` / `Station Description` columns of the
+  downloaded data — they are not selected directly.
+
+```{r}
+library(tceqcrp)
+
+# See what's available
+crp_basins()
+crp_data_types()
+
+# List segments in the Brazos River basin
+segments <- crp_list_segments(basin = 12)
+head(segments)
+
+# Download Field Water Quality data for two stations
+brazos <- crp_query(
+  basin       = 12,
+  startdate   = "01/01/2020",
+  enddate     = "12/31/2020",
+  data_type   = 1,              # Field Water Quality
+  segment_ids = c("1201", "1202"),
+  clean_names = TRUE
+)
+brazos
+```
+
+## How it works
+
+The CRP portal is a JavaServer Faces (JSF) application. This package:
+
+- Opens a session and captures the JSF ViewState token.
+- Selects a river basin (which repopulates the station list server-side).
+- Submits the query and follows the redirect to StreamServlet,
+    which streams a tab-delimited data file.
+
+Session cookies are preserved across all requests so the server keeps
+the query state consistent.
+
+
+## Disclaimer
+
+This package accesses a public TCEQ website by mimicking browser form
+submissions. It is not affiliated with or endorsed by TCEQ. Please use
+responsibly and review TCEQ's terms of use.
