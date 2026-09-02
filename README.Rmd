@@ -22,13 +22,14 @@ knitr::opts_chunk$set(
 
 
 Scripted downloads from the TCEQ Clean Rivers Program (CRP) water
-quality data portal.
+quality data portal: https://www80.tceq.texas.gov/SwqmisWeb/public/crpweb.faces#.
 
 ## Installation
 
+tceqcrp is not currently on CRAN, but can be installed from r-universe:
+
 ```r
-# install.packages("remotes")
-remotes::install_github("mps9506/tceqcrp")
+install.packages('tceqcrp', repos = c('https://mps9506.r-universe.dev', 'https://cloud.r-project.org'))
 ```
 
 
@@ -56,10 +57,10 @@ head(segments)
 
 # Download Field Water Quality data for two stations
 brazos <- crp_query(
-  basin       = 12,
-  startdate   = "01/01/2020",
-  enddate     = "12/31/2020",
-  data_type   = 1,              # Field Water Quality
+  basin = 12,
+  startdate = "01/01/2020",
+  enddate = "12/31/2020",
+  data_type = 1, # Field Water Quality
   segment_ids = c("1201", "1202"),
   clean_names = TRUE
 )

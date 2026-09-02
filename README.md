@@ -11,13 +11,15 @@ version](https://mps9506.r-universe.dev/tceqcrp/badges/version)](https://mps9506
 <!-- badges: end -->
 
 Scripted downloads from the TCEQ Clean Rivers Program (CRP) water
-quality data portal.
+quality data portal:
+<https://www80.tceq.texas.gov/SwqmisWeb/public/crpweb.faces#>.
 
 ## Installation
 
+tceqcrp is not currently on CRAN, but can be installed from r-universe:
+
 ``` r
-# install.packages("remotes")
-remotes::install_github("mps9506/tceqcrp")
+install.packages('tceqcrp', repos = c('https://mps9506.r-universe.dev', 'https://cloud.r-project.org'))
 ```
 
 ## Quick Start
@@ -86,17 +88,17 @@ head(segments)
 
 # Download Field Water Quality data for two stations
 brazos <- crp_query(
-  basin       = 12,
-  startdate   = "01/01/2020",
-  enddate     = "12/31/2020",
-  data_type   = 1,              # Field Water Quality
+  basin = 12,
+  startdate = "01/01/2020",
+  enddate = "12/31/2020",
+  data_type = 1, # Field Water Quality
   segment_ids = c("1201", "1202"),
   clean_names = TRUE
 )
 #> POST returned status: 302
 #> Location header: https://www80.tceq.texas.gov/SwqmisWeb/StreamServlet
 #> StreamServlet status: 200
-#> Downloaded 23782 bytes to C:\Users\MICHAE~1.SCH\AppData\Local\Temp\RtmponoePx\file163c6bc21c7f.txt
+#> Downloaded 23782 bytes to C:\Users\MICHAE~1.SCH\AppData\Local\Temp\RtmpwnOfGV\file85448cc75dc.txt
 brazos
 #> # A tibble: 180 × 20
 #>    rfa_sample_set_id_tag…¹ segment station_id station_description parameter_code
